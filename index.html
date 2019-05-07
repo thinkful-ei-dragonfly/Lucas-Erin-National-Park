@@ -12,10 +12,11 @@
     <link rel="stylesheet" href="">
   </head>
   <body>
-    <form id="state-search">
-      <input type="text" name="state-search" placeholder="Search for a park" required>
-      <label for="max-num">Max Number of Results</label>
-      <input type="number" name="max-num" class="max-num" value="10">
+    <form id="park-search">
+      <input type="text" name="querySearch" placeholder="Search for a park" required>
+      <label for="maxNum">Max Number of Results</label>
+      <input type="number" name="maxNum" class="maxNum" value="10">
+      <input type="submit" class="submit-button" value="Search">
     </form>
 
     <section class="results hidden">
@@ -25,7 +26,7 @@
 
       </ul>
     </section>
-    
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="index.js"></script>
   </body>
 </html>
