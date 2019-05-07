@@ -2,7 +2,7 @@
 
 const apiKey = 'f2htNpo67gntNRR5InkyxHZGSe1F1gxtee7zKJVi';
 
-const searchURL = 'https://developer.nps.gov/api/v1/parks';
+const searchURL = `https://developer.nps.gov/api/v1/parks?api_key=${apiKey}`;
 
 const store = {
   parks: [],
@@ -22,17 +22,16 @@ function requestPark(query, maxNum) {
     q: query,
   };
   const queryString = formatQueryParams(params);
-  const url = searchURL + '?' + queryString;
+  const url = searchURL + '&' + queryString;
 
   //console.log(url);
 
   const options = {
     headers: new Headers({
-      'X-Api-Key': apiKey
-    })
+      "X-Api-Key": apiKey})
   };
 
-  fetch(url, options)
+  fetch(url)
     .then(response => {
       if (response.ok) {
         return response.json();
