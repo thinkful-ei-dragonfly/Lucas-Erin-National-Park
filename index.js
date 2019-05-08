@@ -86,3 +86,35 @@ $(function() {
   watchForm();
   render();
 });
+
+// ----------
+//Code from Rich's afternoon session
+
+// function validateStates(states) {
+//   states.split(',').every(state => state.length ===2);
+// }
+
+// //testing
+// validateStates('ca, ny, va')
+
+// function fetchPark(states, maxResults) {
+//   if (!validateStates(states)) return;
+//   const u = new URL('url')
+//   u.searchParams.set('stateCode', states);
+//   u.searchParams.set('limit', maxResults);
+//   u.searchParams.set('apiKey', 'f2htNpo67gntNRR5InkyxHZGSe1F1gxtee7zKJVi');
+
+//   return fetch(url)
+//     .then(res => res.json)
+// }
+
+// //before fetch
+
+// state.fetching = true;
+// render();
+
+// if(state.fetching) {
+//   $(results).html(<p>Please wait...</p>)
+// } else {
+//   $(results).html(html);
+// }
