@@ -6,23 +6,31 @@ const searchURL = `https://developer.nps.gov/api/v1/parks?api_key=${apiKey}`;
 
 const store = {
   parks: [],
-  errorMessage: null,
-  formReady: false,
 };
 
-function displayResults(responseJson, maxNumber) {
-  console.log(responseJson);
-  $('.results-list').empty();
-  for (let i = 0; i < responseJson.data.length & i < maxNumber; i++) {
-    $('.results-list').append(
-      `<li>
-        <h3><a href= "${responseJson.data[i].url}">${responseJson.data[i].name}</a></h3>
-        <p>${responseJson.data[i].description}</p>
-      </li>`
-    );
+function addParkstoState(parks, maxNumber) {
+  store.parks = parks.data;
+  if (store.parks.length > maxNumber) {
+    store.parks.splice(maxNumber-1, store.parks.length-maxNumber);
   }
 }
-$('.results').removeClass('hidden');
+
+function render() {
+  // console.log(responseJson);
+
+  $('.results-list').empty();
+
+  const html = store.parks.map(parkResult => {
+    return `
+      <li>
+        <h3><a href= "${parkResult.url}">${parkResult.name}</a></h3>
+        <p>${parkResult.description}</p>
+      </li>`;
+  }
+  );
+  $('.results').removeClass('hidden');
+  $('.results-list').html(html);
+}
 
 
 function formatQueryParams(params) {
@@ -51,11 +59,16 @@ function requestPark(query, maxNumber) {
       if (response.ok) {
         return response.json();
       }
-      throw new Error(response.statusText);
+      else {
+        throw new Error(response.statusText);
+      }})
+    .then(responseJson => {
+      addParkstoState(responseJson, maxNumber);
+      render();
     })
-    .then(responseJson => displayResults(responseJson, maxNumber))
     .catch(e => {
       $('.error-message').text(`Something went wrong: ${e.message}`);
+      render();
     });
 }
 
@@ -71,4 +84,5 @@ function watchForm() {
 
 $(function() {
   watchForm();
+  render();
 });
