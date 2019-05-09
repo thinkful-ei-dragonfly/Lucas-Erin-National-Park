@@ -2,17 +2,18 @@
 
 const apiKey = 'f2htNpo67gntNRR5InkyxHZGSe1F1gxtee7zKJVi';
 
-const searchURL = `https://developer.nps.gov/api/v1/parks?api_key=${apiKey}`;
+const searchURL = 'https://developer.nps.gov/api/v1/parks/';
 
 const store = {
   parks: [],
 };
 
-function addParkstoState(parks, maxNumber) {
+// function validateStates(states) {
+//   states.split(',').every(state => state.length ===2);
+// }
+
+function addParkstoState(parks) {
   store.parks = parks.data;
-  if (store.parks.length > maxNumber) {
-    store.parks.splice(maxNumber-1, store.parks.length-maxNumber);
-  }
 }
 
 function render() {
@@ -23,8 +24,9 @@ function render() {
   const html = store.parks.map(parkResult => {
     return `
       <li>
-        <h3><a href= "${parkResult.url}">${parkResult.name}</a></h3>
+        <h3>${parkResult.name}</h3>
         <p>${parkResult.description}</p>
+        <a href=""${parkResult.url}">Link to ${parkResult.name} website</a>
       </li>`;
   }
   );
@@ -40,19 +42,16 @@ function formatQueryParams(params) {
 }
 
 function requestPark(query, maxNumber) {
-  console.log('Request park with query and limit it to maxNum');
+  //console.log('Request park with query and limit it to maxNum');
   const params = {
-    q: query,
+    stateCode: query,
+    //NPS API starts at 0 instead of 1?
+    limit: maxNumber-1,
+    api_key: apiKey,
   };
+
   const queryString = formatQueryParams(params);
-  const url = searchURL + '&' + queryString;
-
-  console.log(url);
-
-  // const options = {
-  //   headers: new Headers({
-  //     "X-Api-Key": apiKey})
-  // };
+  const url = searchURL + '?' + queryString;
 
   fetch(url)
     .then(response => {
@@ -63,7 +62,7 @@ function requestPark(query, maxNumber) {
         throw new Error(response.statusText);
       }})
     .then(responseJson => {
-      addParkstoState(responseJson, maxNumber);
+      addParkstoState(responseJson);
       render();
     })
     .catch(e => {
