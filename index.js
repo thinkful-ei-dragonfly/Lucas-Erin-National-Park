@@ -23,6 +23,7 @@ function render() {
 
   $('.results-list').empty();
 
+  //look up html attribute to open it up in new tab
   const html = store.parks.map(parkResult => {
     return `
       <li>
