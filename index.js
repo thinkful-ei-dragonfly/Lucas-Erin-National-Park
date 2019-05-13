@@ -19,17 +19,13 @@ function addParkstoState(parks) {
 }
 
 function render() {
-  // console.log(responseJson);
-
-  $('.results-list').empty();
-
   //look up html attribute to open it up in new tab
   const html = store.parks.map(parkResult => {
     return `
       <li>
         <h3>${parkResult.name}</h3>
         <p>${parkResult.description}</p>
-        <a href="${parkResult.url}">${parkResult.url}</a>
+        <a href="${parkResult.url}" target="_blank">${parkResult.url}</a>
       </li>`;
   }
   );
@@ -74,10 +70,11 @@ function requestPark(query, maxNumber) {
     });
 }
 
-function watchForm() {
+function submitWatchForm() {
   $('#park-search').on('submit', event => {
     event.preventDefault();
-    const searchTerm = event.target.querySearch.value;
+    $('.results-list').empty();
+    const searchTerm = event.target.querySearch.value.split(' ');
     const maxResults = event.target.maxNum.value;
     requestPark(searchTerm, maxResults);
     console.log(`${searchTerm} ${maxResults}`);
@@ -85,7 +82,7 @@ function watchForm() {
 }
 
 $(function() {
-  watchForm();
+  submitWatchForm();
   render();
 });
 
